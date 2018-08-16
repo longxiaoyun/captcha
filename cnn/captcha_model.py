@@ -112,7 +112,7 @@ class CaptchaCnn(object):
         :return: None
         """
         try:
-            self.model.save(self.model_file + ".h5")
+            self.model.save(self.path + self.model_file + ".h5")
             print("Model is saved!")
         except Exception as e:
             print("[model_save]" + str(e))
@@ -132,7 +132,8 @@ class CaptchaCnn(object):
     def model_evaluation(self, x_test, y_test):
         """
 
-        :param x_test: 评估数据集
+        :param x_test: 评估特征
+        :param y_test: 评估标签
         :return:
         """
         try:
