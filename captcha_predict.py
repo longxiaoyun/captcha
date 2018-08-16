@@ -24,7 +24,7 @@ def predict_run(p):
         ncd = {v: k for k, v in CHAR_DICT.items()}
         for i in range(4):
             res.append(ncd[np.where(model_predict[i]==np.max(model_predict[i]))[0].tolist()[0]])
-    return str(res)
+    return "".join(res)
 
 if __name__ == '__main__':
     file_name_list = os.listdir(TEST_DIR)
