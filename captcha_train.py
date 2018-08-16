@@ -16,36 +16,39 @@ def train_run():
     x_images, y_labels = create_train_model_data(file_name_list, mode=1)
     print("x_images: ", x_images.shape)
     print("y_labels: ", y_labels.shape)
-    # 建立模型对象
-    captcha_cnn = CaptchaCnn()
-    # 设置模型参数
-    captcha_cnn.set_param(
-        images_h=IMAGES_H,
-        images_w=IMAGES_W,
-        channel=CHANNEL,
-        loss=LOSS,
-        optimizer=OPTIMIZER,
-        metrics=METRICS,
-        keep_prob=KEEP_PROB,
-        n_class=N_CLASS,
-        n_char=N_CHAR
-    )
-    # 定义模型
-    captcha_cnn.building_model(
-        filters_1=FILTERS_1,
-        filters_2=FILTERS_2,
-        filters_3=FILTERS_3,
-        filters_4=FILTERS_4
-    )
-    # 训练模型
-    captcha_cnn.fit_model(
-        x_images,
-        y_labels,
-        epochs=10,
-        batch_size=128
-    )
-    # 模型保存
-    captcha_cnn.model_save()
+    if x_images.shape[0] == 1:
+        raise Exception("The train sample is too small!")
+    else:
+        # 建立模型对象
+        captcha_cnn = CaptchaCnn()
+        # 设置模型参数
+        captcha_cnn.set_param(
+            images_h=IMAGES_H,
+            images_w=IMAGES_W,
+            channel=CHANNEL,
+            loss=LOSS,
+            optimizer=OPTIMIZER,
+            metrics=METRICS,
+            keep_prob=KEEP_PROB,
+            n_class=N_CLASS,
+            n_char=N_CHAR
+        )
+        # 定义模型
+        captcha_cnn.building_model(
+            filters_1=FILTERS_1,
+            filters_2=FILTERS_2,
+            filters_3=FILTERS_3,
+            filters_4=FILTERS_4
+        )
+        # 训练模型
+        captcha_cnn.fit_model(
+            x_images,
+            y_labels,
+            epochs=1,
+            batch_size=128
+        )
+        # 模型保存
+        captcha_cnn.model_save()
 
 if __name__ == '__main__':
     train_run()

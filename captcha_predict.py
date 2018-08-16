@@ -16,13 +16,18 @@ def predict_run(p):
     # 加载训练好的模型
     captcha_cnn.model_load()
     # 模型预测
-    model_predict = captcha_cnn.model_predict(x_data)
-    res = []
-    for i in range(4):
-        res.append(CHAR_DICT[np.where(model_predict[i]==np.max(model_predict[0]))[0].tolist()[0]])
+    model_predict = captcha_cnn.model_predict(x_data)[0]
+    if 1 in set(np.isnan(model_predict).ravel()):
+        raise Exception("model predict values have NAN!")
+    else:
+        res = []
+        ncd = {v: k for k, v in CHAR_DICT.items()}
+        for i in range(4):
+            res.append(ncd[np.where(model_predict[i]==np.max(model_predict[i]))[0].tolist()[0]])
     return str(res)
 
 if __name__ == '__main__':
     file_name_list = os.listdir(TEST_DIR)
     for p in file_name_list:
-        print(predict_run(p))
+        if p != '.DS_Store':
+            print(predict_run(p))
