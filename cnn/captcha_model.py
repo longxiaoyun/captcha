@@ -96,7 +96,7 @@ class CaptchaCnn(object):
                 raise Exception("Model is not be building!")
             else:
                 self._model_summary()
-                early_stop = EarlyStopping()
+                early_stop = EarlyStopping(patience=10)
                 if os.path.exists(self.logs) is False:
                     os.mkdir(self.logs)
                 tensor_board = TensorBoard()
