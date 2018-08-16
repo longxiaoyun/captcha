@@ -1,7 +1,9 @@
+# -*- coding: utf-8 -*-
+import numpy as np
 from keras.preprocessing.image import load_img
 from keras.preprocessing.image import img_to_array
 from keras.utils import to_categorical
-from config import N_CHAR, N_CLASS, CHAR_DICT
+from config import N_CHAR, CHAR_DICT, TRAIN_DIR, VALID_DIR
 
 
 def create_x_images(picture):
@@ -10,7 +12,7 @@ def create_x_images(picture):
     :param picture: 传入验证码图片
     :return:
     """
-    return img_to_array(picture)
+    return img_to_array(picture) / 255
 
 
 def create_y_labels(file_name):
@@ -31,21 +33,30 @@ def string_to_num(label_str):
     return [CHAR_DICT[label] for label in label_str]
 
 
-def create_train_model_data(file_list):
+def create_train_model_data(file_list, mode):
     """
 
     :param file_list: 传入训练集文件中验证码图片
+    :param mode 1.训练模式
+                2.评估模型
     :return:
     """
     x_images = []
     y_labels = []
     # 加载图片
     for p in file_list:
-        picture = load_img(p)
-        x_images.append(create_x_images(picture))
-        sn = string_to_num(create_y_labels(p))
-        y_labels.append(to_categorical(sn, num_classes=N_CLASS * len(N_CHAR)))
-    return x_images, y_labels
+        picture = None
+        if mode == 1:
+            picture = load_img(TRAIN_DIR + "/" + p)
+        if mode == 2:
+            picture=load_img(VALID_DIR + "/" + p)
+        if picture is None:
+            raise Exception("picture is None!")
+        else:
+            x_images.append(create_x_images(picture))
+            sn = string_to_num(create_y_labels(p))
+            y_labels.append(to_categorical(sn, num_classes=len(N_CHAR)))
+    return np.array(x_images), np.array(y_labels)
 
 
 def create_predict_model_data(p):

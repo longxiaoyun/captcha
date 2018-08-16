@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import os
 from keras.models import Model, load_model
 from keras.layers import Dense, Input, Conv2D, Reshape
@@ -64,9 +65,9 @@ class CaptchaCnn(object):
         # dropout层
         dropout = Dropout(self.keep_prob)(flatten)
         # 分类输出
-        output_1 = Dense(units=self.n_class * self.n_char, activation="softmax")(dropout)
+        output_1 = Dense(units=self.n_class * len(self.n_char), activation="softmax")(dropout)
         # 将输出转换为矩阵格式
-        output_2 = Reshape((self.n_class, self.n_char))(output_1)
+        output_2 = Reshape((self.n_class, len(self.n_char)))(output_1)
         # 模型对象
         self.model = Model(inputs=input_x, outputs=output_2)
         try:
@@ -103,7 +104,7 @@ class CaptchaCnn(object):
                                epochs=epochs, batch_size=batch_size,
                                validation_split=0.1, callbacks=[early_stop, tensor_board])
         except Exception as e:
-            print("[fit_model]" + str(e))
+            raise Exception("[fit_model]" + str(e))
 
     def model_save(self):
         """ 用于保存模型

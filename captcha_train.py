@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 import os
 from config import TRAIN_DIR
-from config import IMAGES_H, IMAGES_W, CHANNEL
+from config import IMAGES_H, IMAGES_W, CHANNEL, N_CLASS, N_CHAR
 from config import LOSS, OPTIMIZER, METRICS, KEEP_PROB
 from config import FILTERS_1, FILTERS_2, FILTERS_3, FILTERS_4
 from cnn.captcha_processing import create_train_model_data
@@ -11,7 +12,10 @@ def train_run():
     # 读取训练验证码
     file_name_list = os.listdir(TRAIN_DIR)
     # 建立训练数据集
-    x_images, y_labels = create_train_model_data(file_name_list)
+    print("Create train model data...")
+    x_images, y_labels = create_train_model_data(file_name_list, mode=1)
+    print("x_images: ", x_images.shape)
+    print("y_labels: ", y_labels.shape)
     # 建立模型对象
     captcha_cnn = CaptchaCnn()
     # 设置模型参数
@@ -22,7 +26,9 @@ def train_run():
         loss=LOSS,
         optimizer=OPTIMIZER,
         metrics=METRICS,
-        keep_prob=KEEP_PROB
+        keep_prob=KEEP_PROB,
+        n_class=N_CLASS,
+        n_char=N_CHAR
     )
     # 定义模型
     captcha_cnn.building_model(

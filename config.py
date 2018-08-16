@@ -1,4 +1,5 @@
 TRAIN_DIR = "./train_data"
+VALID_DIR = "./valid_data"
 TEST_DIR = "./test_data"
 N_CLASS = 4
 N_CHAR = "0123456789abcdefghijklmnopqrstuvwxyz"
