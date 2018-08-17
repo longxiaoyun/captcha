@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import os
+import keras.backend as K
 from keras.models import Model, load_model
 from keras.layers import Dense, Input, Conv2D, Reshape
 from keras.layers import MaxPooling2D, Flatten, Dropout
@@ -157,3 +158,10 @@ class CaptchaCnn(object):
             return self.model.predict(x_data)
         except Exception as e:
             print("[model_predict]" + str(e))
+
+    @staticmethod
+    def clear_session():
+        try:
+            K.clear_session()
+        except Exception as e:
+            print(e)

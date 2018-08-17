@@ -49,6 +49,8 @@ def train_run():
         )
         # 模型保存
         captcha_cnn.model_save()
+        # 清理session
+        captcha_cnn.clear_session()
 
 if __name__ == '__main__':
     train_run()
