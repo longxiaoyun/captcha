@@ -127,6 +127,10 @@ class CaptchaCnn(object):
             if os.path.exists(self.path) is False:
                 os.mkdir(self.path)
             self.model = load_model(self.path + self.model_file + ".h5")
+            print("="*20)
+            print("The model is loaded!")
+            print("good luck!")
+            print("="*20)
         except Exception as e:
             print("[model_load]" + str(e))
 

@@ -33,3 +33,4 @@ if __name__ == '__main__':
     for p in file_name_list:
         if p != '.DS_Store':
             print(predict_run(p))
+    CAPTCHA_CNN.clear_session()
