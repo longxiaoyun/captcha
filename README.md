@@ -34,4 +34,4 @@
 ###### 因训练数据集需要自行采集，代码附带数据集仅供参照。具体模型评估需根据不同数据集而确定。
 
 #### 七、References
-##### 
+##### [1] https://github.com/PatrickLib/captcha_recognize
