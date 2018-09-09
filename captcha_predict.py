@@ -4,6 +4,8 @@ from config import TEST_DIR, CHAR_DICT
 from cnn.captcha_model import CaptchaCnn
 from cnn.captcha_processing import create_predict_model_data
 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 # 定义模型对象
 CAPTCHA_CNN = CaptchaCnn()
 # 加载训练好的模型
@@ -25,8 +27,9 @@ def predict_run(p):
         res = []
         ncd = {v: k for k, v in CHAR_DICT.items()}
         for i in range(4):
-            res.append(ncd[np.where(model_predict[i]==np.max(model_predict[i]))[0].tolist()[0]])
+            res.append(ncd[np.where(model_predict[i] == np.max(model_predict[i]))[0].tolist()[0]])
     return "".join(res)
+
 
 if __name__ == '__main__':
     file_name_list = os.listdir(TEST_DIR)

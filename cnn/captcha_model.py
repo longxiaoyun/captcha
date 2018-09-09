@@ -22,7 +22,7 @@ class CaptchaCnn(object):
         self.keep_prob = None
         self.path = "model/"
         self.logs = "logs/"
-        self.model_file = "four_cnn_model"
+        self.model_file = "cnn_model"
 
     def __str__(self):
         return "The is my cnn!"
@@ -83,13 +83,14 @@ class CaptchaCnn(object):
         """
         return self.model.summary()
 
-    def fit_model(self, x_train, y_train, epochs, batch_size):
+    def fit_model(self, x_train, y_train, **kwargs):
         """
 
         :param x_train: 训练特征
         :param y_train: 训练标签
-        :param epochs: 迭代次数
-        :param batch_size: 批量训练数据大小
+        :param kwargs: epochs: 迭代次数
+                        batch_size: 批量训练数据大小
+                        patience: 在损失函数无减少后多次迭代结束训练
         :return:
         """
         try:
@@ -97,12 +98,12 @@ class CaptchaCnn(object):
                 raise Exception("Model is not be building!")
             else:
                 self._model_summary()
-                early_stop = EarlyStopping(patience=10)
+                early_stop = EarlyStopping(patience=kwargs['patience'])
                 if os.path.exists(self.logs) is False:
                     os.mkdir(self.logs)
                 tensor_board = TensorBoard()
                 self.model.fit(x=x_train, y=y_train,
-                               epochs=epochs, batch_size=batch_size,
+                               epochs=kwargs['epochs'], batch_size=kwargs['batch_size'],
                                validation_split=0.1, callbacks=[early_stop, tensor_board])
         except Exception as e:
             raise Exception("[fit_model]" + str(e))
@@ -113,8 +114,10 @@ class CaptchaCnn(object):
         :return: None
         """
         try:
+            if os.path.exists(self.path) is False:
+                os.mkdir(self.path)
             self.model.save(self.path + self.model_file + ".h5")
-            print("Model is saved!")
+            print("[INFO] Model is saved!")
         except Exception as e:
             print("[model_save]" + str(e))
 
@@ -124,8 +127,6 @@ class CaptchaCnn(object):
         :return: None
         """
         try:
-            if os.path.exists(self.path) is False:
-                os.mkdir(self.path)
             self.model = load_model(self.path + self.model_file + ".h5")
             print("="*20)
             print("The model is loaded!")

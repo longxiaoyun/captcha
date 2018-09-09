@@ -4,6 +4,8 @@ from config import VALID_DIR
 from cnn.captcha_model import CaptchaCnn
 from cnn.captcha_processing import create_train_model_data
 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 
 def evaluation_run():
     # 读取测试验证码
@@ -16,6 +18,9 @@ def evaluation_run():
     captcha_cnn.model_load()
     # 模型评估
     captcha_cnn.model_evaluation(x_images, y_labels)
+    # 清理session
+    captcha_cnn.clear_session()
+
 
 if __name__ == '__main__':
     evaluation_run()

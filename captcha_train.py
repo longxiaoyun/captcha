@@ -7,6 +7,8 @@ from config import FILTERS_1, FILTERS_2, FILTERS_3, FILTERS_4
 from cnn.captcha_processing import create_train_model_data
 from cnn.captcha_model import CaptchaCnn
 
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '2'
+
 
 def train_run():
     # 读取训练验证码
@@ -45,12 +47,14 @@ def train_run():
             x_images,
             y_labels,
             epochs=1,
-            batch_size=128
+            batch_size=128,
+            patience=10
         )
         # 模型保存
         captcha_cnn.model_save()
         # 清理session
         captcha_cnn.clear_session()
+
 
 if __name__ == '__main__':
     train_run()

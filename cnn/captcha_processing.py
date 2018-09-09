@@ -52,7 +52,7 @@ def create_train_model_data(file_list, mode):
                 if mode == 1:
                     picture = load_img(TRAIN_DIR + "/" + p)
                 if mode == 2:
-                    picture=load_img(VALID_DIR + "/" + p)
+                    picture = load_img(VALID_DIR + "/" + p)
                 if picture is None:
                     raise Exception("picture is None!")
                 else:
